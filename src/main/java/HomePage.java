@@ -1,12 +1,20 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class Homepage {
-    ChromeDriver driver = new ChromeDriver();
+public class HomePage {
+    WebDriver driver= new ChromeDriver();
 
-      // for search option;
-    public CustomerPage search(CharSequence searchItem) {
+    public String navigateToUrlAndGetTitle(String url) {
+        driver.get(url);
+        String title= driver.getTitle();
+        return title;
+
+    }
+
+    // for search option;
+    public String searchAnItemToGetContentPageTitle(CharSequence searchItem) {
         WebElement e = driver.findElement(By.id("twotabsearchtextbox"));
         e.click();
 
@@ -14,13 +22,16 @@ public class Homepage {
         driver.findElement(By.id("nav-search-submit-button"));
         e.submit();
 
-        CustomerPage customerPage = new CustomerPage();
-        return customerPage;
+        ContentPage contentPage = new ContentPage();
+        contentPage.driver = this.driver;
+        String contentPageTitle = driver.getTitle();
+
+        return contentPageTitle;
     }
 
 
     // for sign-in option;
-    public CustomerPage signIn(CharSequence email,CharSequence password){
+    public String signIn(CharSequence email, CharSequence password) {
         WebElement e = driver.findElement(By.id("nav-link-accountList"));
         driver.findElement(By.className("nav-action-button"));
         e.click();
@@ -36,49 +47,37 @@ public class Homepage {
         e.click();
 
         CustomerPage customerPage = new CustomerPage();
-        return customerPage;
+        CustomerPage.driver = this.driver;
+        String customerPageTitle= driver.getTitle();
+        return customerPageTitle;
     }
 
 
-       //        for new user register;
-    public CustomerPage newUserRegister(CharSequence name, CharSequence email, CharSequence password){
+    //        for new user register;
+    public CustomerPage newUserRegister(CharSequence name, CharSequence email, CharSequence password) {
         WebElement e = driver.findElement(By.id("nav-link-accountList"));
         driver.findElement(By.className("nav-action-button"));
         e.click();
-        e= driver.findElement(By.id("createAccountSubmit"));
+        e = driver.findElement(By.id("createAccountSubmit"));
         e.click();
 
-        e= driver.findElement(By.id("ap_customer_name"));
+        e = driver.findElement(By.id("ap_customer_name"));
         e.sendKeys(name);
 
-        e= driver.findElement(By.id("ap_email"));
+        e = driver.findElement(By.id("ap_email"));
         e.sendKeys(email);
 
-        e= driver.findElement(By.id("ap_password"));
+        e = driver.findElement(By.id("ap_password"));
         e.sendKeys(password);
 
-        e= driver.findElement(By.id("ap_password_check"));
+        e = driver.findElement(By.id("ap_password_check"));
         e.sendKeys(password);
 
-        e= driver.findElement(By.id("continue"));
+        e = driver.findElement(By.id("continue"));
         e.click();
 
         CustomerPage customerPage = new CustomerPage();
         customerPage.driver = this.driver;
         return customerPage;
-   }
-
-   public void navigate() {
-       driver.get("http://www.amazon.com");
-   }
-
-    public static void main(String[]args) {
-        System.setProperty("webdriver.chrome.driver", "C:/chromedriver.exe");
-
-        Homepage homepage = new Homepage();
-        homepage.navigate();
-        homepage.signIn("abc@gmail.com", "12345678");
-        //homepage.newUserRegister("abcd","abc@gmail.com","12345678");
-        //homepage.search("toys");
     }
 }

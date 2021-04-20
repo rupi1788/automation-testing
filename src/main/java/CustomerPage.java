@@ -1,5 +1,5 @@
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.WebDriver;
 
 public class CustomerPage {
-    ChromeDriver driver;
+    static WebDriver driver;
 }
